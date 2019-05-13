@@ -13,8 +13,8 @@ class employee{
     {
 
         return new Promise((resolve,reject)=>
-        {
-            console.log("dada")
+        {   
+            console.log("dada",payload.fullName)
             employeeContact.findOne(
                 
                 {
@@ -25,9 +25,10 @@ class employee{
             )
             .then((user)=>
             {
+                console.log(user,'user signup')
                 if(user)
                 { 
-                                   resolve("user exist")
+                                   resolve("jpt")
 
             }
             
@@ -69,15 +70,20 @@ class employee{
                      user.password=decryptPassword
                      if(payload.password==user.password)
                      {
+                         console.log(user)
                          const jwtToken=jwt.sign(
-                             {
+                             {       
+                                       gender:user.gender,
+
+                                 _id:user._id,
                                  fullName:user.fullName,
                                  email:user.email,
                                  mobile:user.mobile,
                                  address:user.address,
-                                 gender:user.gender
+                                 isadmin:user.isadmin
+
                              },sec.secrec,{
-                                 expiresIn:'1h'
+                                 expiresIn:'24h'
                              }
                          )
                          resolve(jwtToken)
@@ -133,7 +139,7 @@ class employee{
             })
             .then(d=>resolve(d))
             .catch(e=>reject(e));
-        })
+        }) 
     }
 
     removeEmployee(userId)

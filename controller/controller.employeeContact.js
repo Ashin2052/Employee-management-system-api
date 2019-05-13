@@ -47,5 +47,10 @@ employeefunction.removeEmployee(req.params.userId)
 .then(d=>res.json(d))
 .catch(next);
 })
+ 
+router.put('/admin',(req,res,next)=>
+{
+    
 
+})
 module.exports=router;

@@ -58,5 +58,25 @@ MakeAdmin(payload)
     })
 }
 
+ApproveLeave(Id,payload)
+{
+    return new Promise((resolve,reject)=>
+    {
+        console.log("ada")
+        employeeLeaveModels.findByIdAndUpdate(
+            {
+            _id:Id
+        }
+        ,
+        {
+            $set:payload
+        },
+        {
+            new:true
+        })
+        .then(d=>resolve(d))
+        .catch(e=>reject(e));
+    })
+}
 }
 module.exports=new employeeLeave();

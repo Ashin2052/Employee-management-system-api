@@ -31,7 +31,7 @@ var employeeSchema=new mongoose.Schema({
 });
 
 emp
-  .find()
+  .findById()
   .populate('eid')
   .exec(function(err, xx) {
     if(err) console.log(err);

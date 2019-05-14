@@ -34,9 +34,11 @@ router.put('/Makeadmin',validateUser,(req,res,next)=>
     }
 })
 
-// router.put('/Approve/:Id',(req,res,next)=>
-// {
-
-// })
+router.put('/Approve/:Id',(req,res,next)=>
+{
+  employeeLeavefunction.ApproveLeave(req.params.Id,req.body)
+  .then(d=>res.json(d))
+  .catch(next);
+})
  
 module.exports=router;

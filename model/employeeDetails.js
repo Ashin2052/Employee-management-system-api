@@ -5,6 +5,16 @@ var employeeSchema=new mongoose.Schema({
     {
         type:String
     },
+    isadmin:{
+        type:Boolean,
+        default:false
+    },
+    isemployee:
+    {
+        type:Boolean,
+
+        default:true
+    },
 
     password:{
         type:String
@@ -29,6 +39,12 @@ var employeeSchema=new mongoose.Schema({
     age:
     {
         type:Number
+    },
+
+    role:
+    {
+     type:Number,
+     default:0
     }
 
 });

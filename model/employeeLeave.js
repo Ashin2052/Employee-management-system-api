@@ -24,8 +24,13 @@ var employeeSchema = new mongoose.Schema({
 });
 
 emp
+<<<<<<< HEAD
   .find()
   .populate("eid")
+=======
+  .findById()
+  .populate('eid')
+>>>>>>> 34ebc90db00c98894622ffbe5a39fff8a740765b
   .exec(function(err, xx) {
     if (err) console.log(err);
     //this will log all of the users with each of their posts

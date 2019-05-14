@@ -36,16 +36,18 @@ class employeeLeave {
           resolve(d);
           console.log(d);
         })
+        .then(d => resolve(d))
         .catch(e => reject(e));
     });
   }
-  MakeAdmin(payload) {
+
+  ApproveLeave(Id, payload) {
     return new Promise((resolve, reject) => {
       console.log("ada");
-      employeeContact
-        .findOneAndUpdate(
+      employeeLeaveModels
+        .findByIdAndUpdate(
           {
-            _id: payload.userId
+            _id: Id
           },
           {
             $set: payload

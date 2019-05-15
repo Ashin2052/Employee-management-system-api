@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 
 var AdminInfo=new mongoose.Schema({
-    fullName:
+    name:
     {
         type:String
     },
@@ -14,7 +14,7 @@ var AdminInfo=new mongoose.Schema({
     {
         type:String
     },
-    mobile:
+    contact:
     {
      type:String
     },

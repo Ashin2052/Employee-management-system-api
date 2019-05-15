@@ -12,7 +12,7 @@ const sec=require('../config')
        if( err ) return res.status(403).json({message:'User not authorized'});
 req.UserId = decoded._id;
 req.fullName=decoded.fullName;
-req.isadmin = decoded.isadmin,
+req.isadmin = decoded.isadmin;
 req.isEmplpoyee=decoded.isEmplpoyee;
       //  employreeeContact.findById(decoded.id)
       //  .then(res=>{

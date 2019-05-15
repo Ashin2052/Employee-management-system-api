@@ -1,53 +1,44 @@
-const mongoose=require('mongoose');
+const mongoose = require("mongoose");
 
-var employeeSchema=new mongoose.Schema({
-    fullName:
-    {
-        type:String
-    },
-    isadmin:{
-        type:Boolean,
-        default:false
-    },
-    isemployee:
-    {
-        type:Boolean,
+var employeeSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  isadmin: {
+    type: Boolean,
+    default: false
+  },
+  isemployee: {
+    type: Boolean,
 
-        default:true
-    },
+    default: true
+  },
 
-    password:{
-        type:String
-    },
+  password: {
+    type: String
+  },
 
-    email:
-    {
-        type:String
-    },
-    mobile:
-    {
-     type:String
-    },
-    address:
-    {
-        type:String
-    },
-    gender:
-    {
-    type:String  
-    },
-    age:
-    {
-        type:Number
-    },
+  email: {
+    type: String
+  },
+  contact: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  gender: {
+    type: String
+  },
+  age: {
+    type: Number
+  },
 
-    role:
-    {
-     type:Number,
-     default:0
-    }
-
+  role: {
+    type: Number,
+    default: 0
+  }
 });
 
-const employeeContact = mongoose.model('employeeContact',employeeSchema);
+const employeeContact = mongoose.model("employeeContact", employeeSchema);
 module.exports = employeeContact;

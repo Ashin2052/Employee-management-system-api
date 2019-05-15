@@ -1,6 +1,6 @@
 const Router=require('express').Router;
 const router=Router();
-const employeefunction=require('./controller.employeeFunction');
+const employeefunction=require('../functions/controller.employeeFunction');
 
 const validateUser=require('../services/userValidation');
 

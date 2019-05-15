@@ -47,11 +47,10 @@ class employee {
             const decryptPassword = cryptr.decrypt(user.password);
             user.password = decryptPassword;
             if (payload.password == user.password) {
-              console.log(user);
+              console.log(user,"user token");
               const jwtToken = jwt.sign(
                 {
                   gender: user.gender,
-
                   _id: user._id,
                   fullName: user.fullName,
                   email: user.email,
@@ -65,7 +64,7 @@ class employee {
                 }
               );
               resolve(jwtToken);
-              console.log("token resolved");
+              console.log("fullName",fullName);
             } else {
               reject("authentication fail");
             }

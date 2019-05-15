@@ -12,7 +12,8 @@ const sec=require('../config')
        if( err ) return res.status(403).json({message:'User not authorized'});
 req.email=decoded.email,       
 req.UserId = decoded._id;
-req.fullName=decoded.fullName;
+req.name=decoded.fullName;
+console.log(req.name,"this is from service");
 req.isadmin = decoded.isadmin;
 req.isEmplpoyee=decoded.isEmplpoyee;
       //  employreeeContact.findById(decoded.id)

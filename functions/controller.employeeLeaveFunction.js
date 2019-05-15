@@ -7,7 +7,7 @@ const sec = require("../config");
 class employeeLeave {
   constructor() {}
 
-    ApplyLeave(payload , userId,fullName)
+    ApplyLeave(payload , userId,fullName,email)
     {
         return new Promise((resolve,reject)=>
         {
@@ -16,6 +16,8 @@ class employeeLeave {
             console.log(R)
             if(L<R){
             employeeLeaveModels({
+                employeeName:fullName,
+                email:email,
                 eid:userId,
                 ReturnDate:new Date(payload.ReturnDate),
                 LeaveDate:new Date(payload.LeaveDate),

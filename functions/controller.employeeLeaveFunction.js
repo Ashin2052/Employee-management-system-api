@@ -11,8 +11,11 @@ class employeeLeave
     ApplyLeave(payload , userId,fullName)
     {
         return new Promise((resolve,reject)=>
-        {  
-            
+        {
+            var R=    new  Date(payload.ReturnDate);
+            var L=   new Date(payload.LeaveDate)
+            console.log(R)
+            if(L<R){
             employeeLeaveModels({
                 eid:userId,
                 ReturnDate:new Date(payload.ReturnDate),
@@ -22,6 +25,11 @@ class employeeLeave
             .then(d=>resolve(d))
             .catch(e=>reject(e))
             console.log("break")
+        }
+        else
+        {
+            resolve("Enter appropriate return date return date");
+        }
         })
     }
 
@@ -78,5 +86,17 @@ ApproveLeave(Id,payload)
         .catch(e=>reject(e));
     })
 }
+
+employeeApply(payload)
+{
+    return new Promise((resolve,reject)=>
+    {
+        employeeLeaveModels.find({
+            eid:payload.eid
+        })
+        .then(d=>resolve(d))
+        .catch(e=>reject(e));
+    })
 }
-module.exports=new employeeLeave();
+}
+module.exports=new employeeLeave(); 

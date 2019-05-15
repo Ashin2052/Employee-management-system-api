@@ -7,8 +7,8 @@ const validateUser=require('../services/userValidation');
 
 router.post('/ApplyLeave',validateUser,(req,res,next)=>
 {
-    console.log("hjhjhjh",req.UserId,req.fullName);
-    employeeLeavefunction.ApplyLeave(req.body,req.UserId,req.fullName)
+    console.log("hjhjhjh",req.UserId,req.fullName,req.email);
+    employeeLeavefunction.ApplyLeave(req.body,req.UserId,req.fullName,req.email)
     .then(d=>res.json(d))
     .catch(next);
 })

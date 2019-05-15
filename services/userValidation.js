@@ -10,6 +10,7 @@ const sec=require('../config')
     jwt.verify(token, sec.secrec, function(err, decoded) {
        console.log(decoded,'decoded') // bar
        if( err ) return res.status(403).json({message:'User not authorized'});
+req.email=decoded.email,       
 req.UserId = decoded._id;
 req.fullName=decoded.fullName;
 req.isadmin = decoded.isadmin;

@@ -5,6 +5,15 @@ const emp = require("./employeeDetails");
 var employeeSchema = new mongoose.Schema({
   eid: [{ type: mongoose.Schema.ObjectId, ref: "employeeContact" }],
 
+  employeeName:
+  {
+  type:String,
+  required:true
+  },
+  email:{
+    type:String,
+    required:true
+  },
   LeaveDate: {
     type: Date,
     required: true

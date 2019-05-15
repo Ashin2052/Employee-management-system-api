@@ -7,17 +7,19 @@ const sec = require("../config");
 class employeeLeave {
   constructor() {}
 
-  ApplyLeave(payload, userId, fullName) {
+  ApplyLeave(payload, userId, fullName, email) {
     return new Promise((resolve, reject) => {
-      var R = new Date(payload.end_date);
-      var L = new Date(payload.start_date);
+      var R = new Date(payload.ReturnDate);
+      var L = new Date(payload.LeaveDate);
       console.log(R);
       if (L < R) {
         employeeLeaveModels({
+          employeeName: fullName,
+          email: email,
           eid: userId,
-          ReturnDate: new Date(payload.end_date),
-          LeaveDate: new Date(payload.start_date),
-          Description: payload.reason
+          ReturnDate: new Date(payload.ReturnDate),
+          LeaveDate: new Date(payload.LeaveDate),
+          Description: payload.Description
         })
           .save()
           .then(d => resolve(d))

@@ -38,7 +38,9 @@ router.put("/Approve/:Id", validateUser, (req, res, next) => {
     employeeLeavefunction
       .ApproveLeave(req.params.Id, req.body)
       .then(d => res.json(d))
-      .catch(next);
+      .catch(e => {
+        console.log(e, "update approve leave");
+      });
   } else {
     res.json("you are not admin");
   }

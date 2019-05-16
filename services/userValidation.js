@@ -10,9 +10,9 @@ function validateUser(req, res, next) {
   jwt.verify(token, sec.secrec, function(err, decoded) {
     console.log(decoded, "decoded"); // bar
     if (err) return res.status(403).json({ message: "User not authorized" });
-    (req.email = decoded.email), (req.UserId = decoded._id);
+    req.email = decoded.email;
+    req.UserId = decoded._id;
     req.name = decoded.fullName;
-    console.log(req, "this is from service");
     req.isadmin = decoded.isadmin;
     req.isEmplpoyee = decoded.isEmplpoyee;
     next();

@@ -47,8 +47,9 @@ class employeeLeave {
   }
 
   ApproveLeave(Id, payload) {
+    console.log(payload, "payload approve leaves");
     return new Promise((resolve, reject) => {
-      console.log("ada");
+      console.log("ApporveLeave service called");
       employeeLeaveModels
         .findByIdAndUpdate(
           {

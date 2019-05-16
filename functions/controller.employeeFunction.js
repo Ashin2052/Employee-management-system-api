@@ -22,9 +22,9 @@ class employee {
             resolve("user already exist");
           } else {
             let obj = new employeeContact(payload);
-            obj.email=payload.email;
-            validator.validate(obj.email); // true
-             console.log(obj.email)
+            // obj.email=payload.email;
+            // validator.validate(obj.email); // true
+            //  console.log(obj.email)
             const encryptedString = cryptr.encrypt(payload.password);
             obj.password = encryptedString;
             obj
@@ -51,12 +51,13 @@ class employee {
             const decryptPassword = cryptr.decrypt(user.password);
             user.password = decryptPassword;
             if (payload.password == user.password) {
-              console.log(user,"user token");
+              console.log(user.email,"user yess token");
               const jwtToken = jwt.sign(
                 {
+                
                   gender: user.gender,
                   _id: user._id,
-                  fullName: user.fullName,
+                  fullName:user.fullName,
                   email: user.email,
                   mobile: user.mobile,
                   address: user.address,
@@ -68,7 +69,7 @@ class employee {
                 }
               );
               resolve(jwtToken);
-              console.log("fullName",fullName);
+              console.log("fullName",user.fullName);
             } else {
               reject("authentication fail");
             }

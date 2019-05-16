@@ -4,6 +4,7 @@ const Cryptr = require("cryptr");
 const cryptr = new Cryptr("myTotalySecretKey");
 const jwt = require("jsonwebtoken");
 const sec = require("../config");
+const validator = require("email-validator");
 
 class employee {
   constructor() {}
@@ -21,6 +22,9 @@ class employee {
             resolve("user already exist");
           } else {
             let obj = new employeeContact(payload);
+            obj.email=payload.email;
+            validator.validate(obj.email); // true
+             console.log(obj.email)
             const encryptedString = cryptr.encrypt(payload.password);
             obj.password = encryptedString;
             obj

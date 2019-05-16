@@ -52,11 +52,11 @@ router.put('/Approve/:Id',validateUser,(req,res,next)=>
     }
 })
  
-router.get('/employeeApply',validateUser,(req,res,next)=>
+router.get('/employeeApply/:eid',validateUser,(req,res,next)=>
 {
     if(req.isadmin){
-
-    employeeLeavefunction.employeeApply(req.body)
+     console.log("req.params eid", req.params.eid)
+    employeeLeavefunction.employeeApply(req.params.eid)
     .then(d=>res.json(d))
     .catch(next)
 }

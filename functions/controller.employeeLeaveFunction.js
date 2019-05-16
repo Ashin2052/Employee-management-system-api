@@ -47,9 +47,8 @@ class employeeLeave {
   }
 
   ApproveLeave(Id, payload) {
-    console.log(payload, "payload approve leaves");
     return new Promise((resolve, reject) => {
-      console.log("ApporveLeave service called");
+      console.log("ada");
       employeeLeaveModels
         .findByIdAndUpdate(
           {
@@ -62,7 +61,22 @@ class employeeLeave {
             new: true
           }
         )
-        .then(d => resolve(d))
+        .then(async d => {
+          employeeLeaveModels
+            .findById(Id)
+            .then(async c => {
+              await mailer.sendMail(
+                "mahat.ashin@gmail.com",
+                "mahat.ashin@hotmail.com",
+                "approved",
+                `<p>thank you</p>`
+              );
+              console.log(c.email, "approved email");
+            })
+            .catch(f => reject(f));
+
+          resolve(d);
+        })
         .catch(e => reject(e));
     });
   }

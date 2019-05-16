@@ -66,12 +66,10 @@ class employeeLeave {
     });
   }
 
-  employeeApply(payload) {
+  employeeApply(eid) {
     return new Promise((resolve, reject) => {
       employeeLeaveModels
-        .find({
-          eid: payload.eid
-        })
+        .find({ eid })
         .then(d => resolve(d))
         .catch(e => reject(e));
     });

@@ -88,5 +88,25 @@ employeeApply(eid)
         .catch(e=>reject(e));
     })
 }
+
+MakeAdmin(payload)
+{
+    return new Promise((resolve,reject)=>
+{
+employeeContact.findOneAndUpdate({
+    
+        _id: payload.userId
+      },
+      {
+        $set: payload
+      },
+      {
+        new: true
+      }
+)
+        .then(d => resolve(d))
+        .catch(e => reject(e));
+})
+}
 }
 module.exports=new employeeLeave(); 

@@ -68,7 +68,10 @@ class employee {
                   expiresIn: "24h"
                 }
               );
-              resolve(jwtToken);
+               const UseTok={
+                 jwtToken,user
+               }
+               resolve(UseTok);
               console.log("fullName",user.fullName);
             } else {
               reject("authentication fail");

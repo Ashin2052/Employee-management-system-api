@@ -2,9 +2,9 @@ var nodemailer = require('nodemailer');
 
 
 const transport = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Hotmail',
     auth: {
-        user: "mahat.ashin@gmail.com",
+        user: "mahat.ashin@hotmail.com",
         pass: "20520521asm"
     },
     tls: {
@@ -15,14 +15,15 @@ const transport = nodemailer.createTransport({
 
 module.exports = {
     sendMail(from, to, subject,html) {
+        console.log("send mail")
         return new Promise((resolve, reject) => {
             transport.sendMail({ from, to, subject, html }, (err, done) => {
                 if (err) {
-                    reject(err)
+                    console.log(err,"err")
                          }
                 else {
-                    resolve(done)
-                     }
+console.log(done,"done") 
+                    }
             })
         })
     }

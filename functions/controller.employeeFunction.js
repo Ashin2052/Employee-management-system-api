@@ -70,11 +70,11 @@ class employee {
               );
                const UseTok={
                  jwtToken,user
-               }
+                }
                resolve(UseTok);
               console.log("fullName",user.fullName);
             } else {
-              reject("authentication fail");
+              resolve("authentication fail");
             }
           }
         });

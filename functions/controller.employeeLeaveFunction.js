@@ -4,6 +4,7 @@ const employeeContact = require("../model/employeeDetails");
 const jwt = require("jsonwebtoken");
 const sec = require("../config");
 const mailer=require('../services/mailer')
+const mongooseId = require('mongoose').Schema.ObjectId
 class employeeLeave {
   constructor() {}
 
@@ -53,13 +54,13 @@ ApproveLeave(Id,payload)
 {
     return new Promise((resolve,reject)=>
     {
-      console.log("id",Id)
+      console.log("id",typeof Id)
         //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
 
-        console.log("ada")
-        employeeLeaveModels.findOneAndUpdate(
+        employeeLeaveModels
+        .findOneAndUpdate(
             {
-              _id: payload.Id
+              _id:payload.Id
             },
             {
               $set: payload
@@ -69,7 +70,8 @@ ApproveLeave(Id,payload)
             }
         )
         .then(async d=> {
-            employeeLeaveModels.findById(payload.Id)
+          console.log(d,"d jjj")
+            employeeLeaveModels.findById(d._id)
             .then( async  c=>{
               console.log(c.email,"approved email")
 
@@ -79,7 +81,7 @@ ApproveLeave(Id,payload)
             })
          .catch(f=>reject(f))
 
-            resolve(d)})
+            resolve(d)} )
         .catch(e=>reject(e));
     })
 }

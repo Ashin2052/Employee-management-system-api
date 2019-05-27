@@ -3,36 +3,33 @@ const employeeContact = require("../model/employeeDetails");
 
 const jwt = require("jsonwebtoken");
 const sec = require("../config");
-const mailer=require('../services/mailer')
+const mailer = require("../services/mailer");
 class employeeLeave {
   constructor() {}
 
-    ApplyLeave(payload , userId,fullName,email)
-    {
-        return new Promise((resolve,reject)=>
-        {
-            var R=    new  Date(payload.ReturnDate);
-            var L=   new Date(payload.LeaveDate)
-            console.log(R)
-            if(L<R){
-            employeeLeaveModels({
-                employeeName:fullName,
-                email:email,
-                eid:userId,
-                ReturnDate:new Date(payload.ReturnDate),
-                LeaveDate:new Date(payload.LeaveDate),
-                Description:payload.Description
-            }).save()
-            .then(d=>resolve(d))
-            .catch(e=>reject(e))
-            console.log("break")
-        }
-        else
-        {
-            resolve("Enter appropriate return date return date");
-        }
+  ApplyLeave(payload, userId, fullName, email) {
+    return new Promise((resolve, reject) => {
+      var R = new Date(payload.ReturnDate);
+      var L = new Date(payload.LeaveDate);
+      console.log(R);
+      if (L < R) {
+        employeeLeaveModels({
+          employeeName: fullName,
+          email: email,
+          eid: userId,
+          ReturnDate: new Date(payload.ReturnDate),
+          LeaveDate: new Date(payload.LeaveDate),
+          Description: payload.Description
         })
-    }
+          .save()
+          .then(d => resolve(d))
+          .catch(e => reject(e));
+        console.log("break");
+      } else {
+        resolve("Enter appropriate return date return date");
+      }
+    });
+  }
 
   findEmployeeAllLeave() {
     return new Promise((resolve, reject) => {
@@ -49,69 +46,73 @@ class employeeLeave {
     });
   }
 
-ApproveLeave(Id,payload)
-{
-    return new Promise((resolve,reject)=>
-    {
-      console.log("id",Id)
-        //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
+  ApproveLeave(Id, payload) {
+    return new Promise((resolve, reject) => {
+      console.log("id", Id);
+      //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
 
-        console.log("ada")
-        employeeLeaveModels.findOneAndUpdate(
-            {
-              _id: payload.Id
-            },
-            {
-              $set: payload
-            },
-            {
-              new: true
-            }
+      console.log("ada");
+      employeeLeaveModels
+        .findByIdAndUpdate(
+          {
+            _id: Id
+          },
+          {
+            $set: payload
+          },
+          {
+            new: true
+          }
         )
-        .then(async d=> {
-            employeeLeaveModels.findById(payload.Id)
-            .then( async  c=>{
-              console.log(c.email,"approved email")
+        .then(async d => {
+          employeeLeaveModels
+            .findById(Id)
+            .then(async c => {
+              console.log(c.email, "approved email");
 
-             await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "saigal", `<p>your vacancy has been approved</p>`);
-            //  console.log(c.email,"approved email")
-
+              await mailer.sendMail(
+                "mahat.ashin@hotmail.com",
+                c.email,
+                "saigal",
+                `<p>your vacancy has been approved</p>`
+              );
+              //  console.log(c.email,"approved email")
             })
-         .catch(f=>reject(f))
+            .catch(f => reject(f));
 
-            resolve(d)})
-        .catch(e=>reject(e));
-    })
-}
+          resolve(d);
+        })
+        .catch(e => reject(e));
+    });
+  }
 
-employeeApply(eid)
-{
-    return new Promise((resolve,reject)=>
-    {
-        employeeLeaveModels.find({eid})
-        .then(d=>resolve(d))
-        .catch(e=>reject(e));
-    })
-}
-
-MakeAdmin(payload)
-{
-    return new Promise((resolve,reject)=>
-{
-employeeContact.findOneAndUpdate({
-    
-        _id: payload.userId
-      },
-      {
-        $set: payload
-      },
-      {
-        new: true
-      }
-)
+  employeeApply(eid) {
+    return new Promise((resolve, reject) => {
+      employeeLeaveModels
+        .find({ eid })
         .then(d => resolve(d))
         .catch(e => reject(e));
-})
+    });
+  }
+
+  MakeAdmin(payload) {
+    return new Promise((resolve, reject) => {
+      console.log("chicken");
+      employeeContact
+        .findOneAndUpdate(
+          {
+            _id: payload.userId
+          },
+          {
+            $set: payload
+          },
+          {
+            new: true
+          }
+        )
+        .then(d => resolve(d))
+        .catch(e => reject(e));
+    });
+  }
 }
-}
-module.exports=new employeeLeave(); 
+module.exports = new employeeLeave();

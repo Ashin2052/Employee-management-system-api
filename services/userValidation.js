@@ -11,6 +11,7 @@ function validateUser(req, res, next) {
     console.log(decoded, "decoded"); // bar
     if (err) return res.status(403).json({ message: "User not authorized" });
     req.email = decoded.email;
+    req.password=decoded.password;
     req.UserId = decoded._id;
     req.name = decoded.fullName;
     req.isadmin = decoded.isadmin;

@@ -55,6 +55,7 @@ ApproveLeave(Id,payload)
     return new Promise((resolve,reject)=>
     {
       console.log("id",typeof Id)
+       console.log("payloadn id",typeof payload.Id)
         //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
 
         employeeLeaveModels
@@ -71,17 +72,27 @@ ApproveLeave(Id,payload)
         )
         .then(async d=> {
           console.log(d,"d jjj")
-            employeeLeaveModels.findById(d._id)
+            employeeLeaveModels.findById(payload.Id)
             .then( async  c=>{
-              console.log(c.email,"approved email")
+              if(c.Approved)
+              {
+                console.log(c.email,"approved email")
+                   
 
-             await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "saigal", `<p>your vacancy has been approved</p>`);
-            //  console.log(c.email,"approved email")
+                await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy has been approved</p>`);
+               //  console.log(c.email,"approved email")
+              }
+
+             else
+             {
+              await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy is dis approved</p>`);
+              //  console.log(c.email,"approved email")
+             }
 
             })
          .catch(f=>reject(f))
 
-            resolve(d)} )
+         resolve(d)} )
         .catch(e=>reject(e));
     })
 }

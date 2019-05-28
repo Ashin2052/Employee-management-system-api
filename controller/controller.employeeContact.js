@@ -19,6 +19,19 @@ router.post('/login',(req,res,next)=>
     .catch(next);
 })
 
+router.get('/getApproveDetails/:userId',validateUser,(req,res,next)=>
+{
+    console.log(req.params.UserId,req.UserId,"req nkj")
+    if(req.params.userId==req.UserId){
+    employeefunction.getApproveDetails(req.params.userId)
+    .then(d=>res.json(d))
+    .catch(next);
+    }
+    else{
+        res.json("req.id mismatch")
+    }
+})
+
 router.get('/getAllEmployee',(req,res,next)=>
 {
     employeefunction.getAllEmployee()

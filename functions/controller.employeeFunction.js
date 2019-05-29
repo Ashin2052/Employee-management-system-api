@@ -37,6 +37,8 @@ class employee {
             //  console.log(obj.email)
             const encryptedString = cryptr.encrypt(payload.password);
             obj.password = encryptedString;
+            obj.DoB=new Date(payload.DoB),
+
             obj
               .save()
               .then(d => resolve(d))
@@ -79,21 +81,35 @@ class employee {
                   expiresIn: "24h"
                 }
               );
-              employeeLeaveDetails.find({
-              eid:user._id
-             }).then(ediDetails=>{
+             
               const UseTok={
-                jwtToken,user,ediDetails
-               }
-              resolve(UseTok);
-             })
+                jwtToken,user}
                
+              resolve(UseTok);
+
               console.log("fullName",user.fullName);
             } else {
               resolve("authentication fail");
             }
           }
         });
+    });
+  }
+
+  getApproveDetails(userId)
+  {
+   const u=userId
+    return new Promise((resolve, reject) => {
+      employeeLeaveDetails.find({
+        eid:u})
+       .then(ediDetails=>{
+          var Elen=ediDetails.length;
+         resolve(ediDetails[Elen-1])
+          
+          
+          
+       })
+       .catch(d=>reject(d))
     });
   }
 
@@ -136,7 +152,7 @@ class employee {
         .catch(e => reject(e));
     });
   }
-
+ 
   removeEmployee(userId) {
     return new Promise((resolve, reject) => {
       employeeContact
@@ -168,7 +184,7 @@ class employee {
         if(existingEncryptedString==payload.currentpassword)
       { 
  
-        if(payload.newPassword=!null){
+        if(payload.newPassword){
         const encryptedString = cryptr.encrypt(payload.newPassword);
 
         employeeContact.findOneAndUpdate(
@@ -180,7 +196,7 @@ class employee {
             $set:{password:encryptedString}
           }
         )
-        .then(d=>resolve(d.password))
+        .then(f=>resolve(f))
         .catch(e=>reject(e));
         }
         else{

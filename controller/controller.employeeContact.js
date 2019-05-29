@@ -6,7 +6,7 @@ const validateUser=require('../services/userValidation');
 
 router.post('/',validateUser,(req,res,next)=>
 {
-    if(req.isadmin=="true")
+    if(req.isadmin="true")
     {
         employeefunction.signUp(req.body)
     .then(d=>res.json(d))

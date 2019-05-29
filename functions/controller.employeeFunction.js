@@ -37,6 +37,8 @@ class employee {
             //  console.log(obj.email)
             const encryptedString = cryptr.encrypt(payload.password);
             obj.password = encryptedString;
+            obj.DoB=new Date(payload.DoB),
+
             obj
               .save()
               .then(d => resolve(d))
@@ -150,7 +152,7 @@ class employee {
         .catch(e => reject(e));
     });
   }
-
+ 
   removeEmployee(userId) {
     return new Promise((resolve, reject) => {
       employeeContact

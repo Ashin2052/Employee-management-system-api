@@ -12,11 +12,18 @@ router.post("/ApplyLeave", validateUser, (req, res, next) => {
     .catch(next);
 });
 
-router.get("/AppliedEmployeeList", (req, res, next) => {
+router.get("/AppliedEmployeeList",validateUser, (req, res, next) => {
+ 
+  if(req.isadmin){
   employeeLeavefunction
     .findEmployeeAllLeave()
     .then(d => res.json(d))
     .catch(next);
+  }
+  else
+{
+  res.json("you are not an admin")
+}
 });
 
 router.put("/Makeadmin", validateUser, (req, res, next) => {

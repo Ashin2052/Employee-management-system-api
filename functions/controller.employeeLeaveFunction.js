@@ -4,6 +4,7 @@ const employeeContact = require("../model/employeeDetails");
 const jwt = require("jsonwebtoken");
 const sec = require("../config");
 const mailer = require("../services/mailer");
+const mongooseId = require("mongoose").Schema.ObjectId;
 class employeeLeave {
   constructor() {}
 
@@ -48,14 +49,14 @@ class employeeLeave {
 
   ApproveLeave(Id, payload) {
     return new Promise((resolve, reject) => {
-      console.log("id", Id);
+      console.log("id", typeof Id);
+      console.log("payloadn id", typeof payload.Id);
       //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
 
-      console.log("ada");
       employeeLeaveModels
-        .findByIdAndUpdate(
+        .findOneAndUpdate(
           {
-            _id: Id
+            _id: payload.Id
           },
           {
             $set: payload
@@ -65,10 +66,29 @@ class employeeLeave {
           }
         )
         .then(async d => {
+          console.log(d, "d jjj");
           employeeLeaveModels
-            .findById(Id)
+            .findById(payload.Id)
             .then(async c => {
-              console.log(c.email, "approved email");
+              if (c.Approved) {
+                console.log(c.email, "approved email");
+
+                await mailer.sendMail(
+                  "mahat.ashin@hotmail.com",
+                  c.email,
+                  "sabin",
+                  `<p>your vacancy has been approved</p>`
+                );
+                //  console.log(c.email,"approved email")
+              } else {
+                await mailer.sendMail(
+                  "mahat.ashin@hotmail.com",
+                  c.email,
+                  "sabin",
+                  `<p>your vacancy is dis approved</p>`
+                );
+                //  console.log(c.email,"approved email")
+              }
 
               await mailer.sendMail(
                 "mahat.ashin@hotmail.com",

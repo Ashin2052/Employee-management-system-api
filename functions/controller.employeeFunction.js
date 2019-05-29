@@ -1,16 +1,26 @@
 const mongoose = require("mongoose");
 const employeeContact = require("../model/employeeDetails");
+const employeeLeaveDetails=require('../model/employeeLeave')
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr("myTotalySecretKey");
 const jwt = require("jsonwebtoken");
 const sec = require("../config");
-const validator = require("email-validator");
+const Verifier = require("email-verifier");
 
 class employee {
   constructor() {}
 
   signUp(payload) {
     return new Promise((resolve, reject) => {
+      let verifier = new Verifier("https://emailverification.whoisxmlapi.com/api/v1?apiKey=at_6yki4sbvWdEfP4Don22wi8Wot8WTQ&emailAddress=support@whoisxmlapi.com");
+
+     verifier.verify("mahat.ashin@gmail.com", (err, data) => {
+       console.log(payload.email)
+        if (err) {
+          console.log("error")
+        }
+        console.log(data);
+    });
       console.log("dada", payload.fullName);
       employeeContact
         .findOne({
@@ -45,12 +55,12 @@ class employee {
           email: payload.email
         })
         .then(user => {
+          console.log(user,"pass")
           if (!user) {
             resolve("user does not exist");
           } else {
             const decryptPassword = cryptr.decrypt(user.password);
-            user.password = decryptPassword;
-            if (payload.password == user.password) {
+            if (payload.password == decryptPassword) {
               console.log(user.email,"user yess token");
               const jwtToken = jwt.sign(
                 {
@@ -59,6 +69,7 @@ class employee {
                   _id: user._id,
                   fullName:user.fullName,
                   email: user.email,
+                  password:user.password,
                   mobile: user.mobile,
                   address: user.address,
                   isadmin: user.isadmin
@@ -68,10 +79,15 @@ class employee {
                   expiresIn: "24h"
                 }
               );
-               const UseTok={
-                 jwtToken,user
-                }
-               resolve(UseTok);
+              employeeLeaveDetails.find({
+              eid:user._id
+             }).then(ediDetails=>{
+              const UseTok={
+                jwtToken,user,ediDetails
+               }
+              resolve(UseTok);
+             })
+               
               console.log("fullName",user.fullName);
             } else {
               resolve("authentication fail");
@@ -129,6 +145,56 @@ class employee {
         .catch(e => reject(e));
     });
   }
+  removeEmployeeLeave(eid) {
+    return new Promise((resolve, reject) => {
+      employeeLeaveDetails
+        .deleteMany({eid:eid})
+        .then(d => resolve(d))
+        .catch(e => reject(e));
+    });
+  }
+
+  resetPassword(userId,email,Currentpassword,payload)
+  {
+
+   
+    return new Promise((resolve,reject)=>{
+
+      employeeContact.findById(userId)
+      .then(d=>{
+        console.log(d,"d.passwrod")
+        const existingEncryptedString = cryptr.decrypt(d.password);
+   console.log(existingEncryptedString,"existingencrytoetd")
+        if(existingEncryptedString==payload.currentpassword)
+      { 
+ 
+        if(payload.newPassword=!null){
+        const encryptedString = cryptr.encrypt(payload.newPassword);
+
+        employeeContact.findOneAndUpdate(
+          {
+            _id:userId
+
+          },
+          {
+            $set:{password:encryptedString}
+          }
+        )
+        .then(d=>resolve(d.password))
+        .catch(e=>reject(e));
+        }
+        else{
+          resolve("enter proper password")
+        }
+      }
+      else{
+        resolve("password error")
+      }
+      })
+      
+    })
+  }
 }
 
 module.exports = new employee();
+ 

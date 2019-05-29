@@ -26,6 +26,15 @@ router.get('/getAllEmployee',(req,res,next)=>
     .catch(next);
 })
 
+router.put('/resetPassword',validateUser,(req,res,next)=>
+{
+console.log(req.password)
+employeefunction.resetPassword(req.UserId,req.email,req.password,req.body)
+.then(d=>res.json(d))
+.catch(next)
+
+})
+
 router.get('/:userId',validateUser,(req,res,next)=>
 {
 employeefunction.findParticular(req.params.userId)
@@ -44,6 +53,9 @@ router.put('/:id',validateUser,(req,res,next)=>
 router.delete('/:userId',validateUser,(req,res,next)=>
 {
 employeefunction.removeEmployee(req.params.userId)
+.then(d=>res.json(d))
+.catch(next);
+employeefunction.removeEmployeeLeave(req.params.userId)
 .then(d=>res.json(d))
 .catch(next);
 })

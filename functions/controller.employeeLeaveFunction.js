@@ -1,12 +1,12 @@
 const employeeLeaveModels = require("../model/employeeLeave");
 const employeeContact = require("../model/employeeDetails");
-
-const jwt = require("jsonwebtoken");
-const sec = require("../config");
 const mailer=require('../services/mailer')
 const mongooseId = require('mongoose').Schema.ObjectId
 class employeeLeave {
   constructor() {}
+
+
+  //Applyleave
 
     ApplyLeave(payload , userId,fullName,email)
     {
@@ -35,10 +35,15 @@ class employeeLeave {
         })
     }
 
-  findEmployeeAllLeave() {
+
+//findEmployeAll leave list
+
+  findEmployeeAllLeave(isadmin) {
     return new Promise((resolve, reject) => {
       console.log("nkj");
-      employeeLeaveModels
+      if(isadmin){
+
+        employeeLeaveModels
         .find()
         .populate("eid")
         .then(d => {
@@ -47,83 +52,115 @@ class employeeLeave {
         })
         .then(d => resolve(d))
         .catch(e => reject(e));
+      }
+      else{
+        resolve("you are not an admin")
+      }
+      
     });
   }
 
-ApproveLeave(Id,payload)
+
+  //Approve ;leave
+ApproveLeave(payload,isadmin)
 {
     return new Promise((resolve,reject)=>
     {
-      console.log("id",typeof Id)
-       console.log("payloadn id",typeof payload.Id)
-        //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
-
-        employeeLeaveModels
-        .findOneAndUpdate(
-            {
-              _id:payload.Id
-            },
-            {
-              $set: payload
-            },
-            {
-              new: true
-            }
-        )
-        .then(async d=> {
-          console.log(d,"d jjj")
-            employeeLeaveModels.findById(payload.Id)
-            .then( async  c=>{
-              if(c.Approved)
+      if(isadmin)
+      {
+        console.log("payloadn id",typeof payload.Id)
+         //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
+ 
+         employeeLeaveModels
+         .findOneAndUpdate(
+             {
+               _id:payload.Id
+             },
+             {
+               $set: payload
+             },
+             {
+               new: true
+             }
+         )
+         .then(async d=> {
+           console.log(d,"d jjj")
+             employeeLeaveModels.findById(payload.Id)
+             .then( async  c=>{
+               if(c.Approved)
+               {
+                 console.log(c.email,"approved email")
+                    
+ 
+                 await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy has been approved</p>`);
+                //  console.log(c.email,"approved email")
+               }
+ 
+              else
               {
-                console.log(c.email,"approved email")
-                   
-
-                await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy has been approved</p>`);
+               await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy is dis approved</p>`);
                //  console.log(c.email,"approved email")
               }
-
-             else
-             {
-              await mailer.sendMail("mahat.ashin@hotmail.com", c.email, "sabin", `<p>your vacancy is dis approved</p>`);
-              //  console.log(c.email,"approved email")
-             }
-
-            })
-         .catch(f=>reject(f))
-
-         resolve(d)} )
-        .catch(e=>reject(e));
+ 
+             })
+          .catch(f=>reject(f))
+ 
+          resolve(d)} )
+         .catch(e=>reject(e));
+      }
+      else{
+        resolve("you are not admin")
+      }
     })
 }
 
-employeeApply(eid)
+
+//employeeApply
+employeeApply(eid,isadmin)
 {
     return new Promise((resolve,reject)=>
     {
+      if(isadmin) 
+      {
         employeeLeaveModels.find({eid})
         .then(d=>resolve(d))
         .catch(e=>reject(e));
+      } 
+      else 
+      {
+        resolve("you are not admin");
+      }
     })
 }
 
-MakeAdmin(payload)
+
+//MakeAdmin
+MakeAdmin(payload,isadmin)
 {
     return new Promise((resolve,reject)=>
 {
-employeeContact.findOneAndUpdate({
+  if (isadmin) 
+  {
+    employeeContact.findOneAndUpdate({
     
-        _id: payload.userId
-      },
-      {
-        $set: payload
-      },
-      {
-        new: true
-      }
+      _id: payload.userId
+    },
+    {
+      $set: payload
+    },
+    {
+      new: true
+    }
 )
-        .then(d => resolve(d))
-        .catch(e => reject(e));
+      .then(d => resolve(d))
+      .catch(e => reject(e));
+  }
+  else
+  {
+    resolve("you are not an admin")
+  }
+
+    
 })
 }
 }

@@ -4,21 +4,17 @@ const employeefunction=require('../functions/controller.employeeFunction');
 
 const validateUser=require('../services/userValidation');
 
+
+//register employee
 router.post('/',validateUser,(req,res,next)=>
 {
-    if(req.isadmin="true")
-    {
-        employeefunction.signUp(req.body)
+   
+        employeefunction.signUp(req.body,req.isadmin)
     .then(d=>res.json(d))
     .catch(next);
-    }
-    else{
-        res.json("you cant psot")
-    }
-    
 })
 
-
+//login
 router.post('/login',(req,res,next)=>
 {
     employeefunction.login(req.body)
@@ -26,41 +22,42 @@ router.post('/login',(req,res,next)=>
     .catch(next);
 })
 
+
+  //get approve details
+
 router.get('/getApproveDetails/:userId',validateUser,(req,res,next)=>
 {
     console.log(req.params.UserId,req.UserId,"req nkj")
-    if(req.params.userId==req.UserId){
-    employeefunction.getApproveDetails(req.params.userId)
+   
+    employeefunction.getApproveDetails(req.params.userId,req.UserId)
     .then(d=>res.json(d))
     .catch(next);
-    }
-    else{
-        res.json("req.id mismatch")
-    }
+   
 })
+
+  //get all employee
 
 router.get('/getAllEmployee',validateUser,(req,res,next)=>
 {
-    if(req.isadmin="true")
-{
-    employeefunction.getAllEmployee()
+    
+    employeefunction.getAllEmployee(req.isadmin)
     .then(d=>res.json(d))
     .catch(next);
-}
-else
-{
-    res.json("you are not an admin")
-}
 })
+
+
+  //reset password
 
 router.put('/resetPassword',validateUser,(req,res,next)=>
 {
 console.log(req.password)
-employeefunction.resetPassword(req.UserId,req.email,req.password,req.body)
+employeefunction.resetPassword(req.UserId,req.email,req.body)
 .then(d=>res.json(d))
 .catch(next)
 
 })
+
+  //find particular employee
 
 router.get('/:userId',validateUser,(req,res,next)=>
 {
@@ -70,40 +67,28 @@ employeefunction.findParticular(req.params.userId)
 .catch(next);
 })
 
+  //update employee details
 
 router.put('/:id',validateUser,(req,res,next)=>
 {     
-     if(req.isadmin || req.params.id==  req.UserId)
-{
-    employeefunction.update(req.params.id,req.body)
+    employeefunction.update(req.params.id,req.isadmin,req.UserId,req.body)
     .then(d=>res.json(d))
     .catch(next);
-}
-else{
-    res.json("rerrpr")
-}
 })
+//
+
+  //remove employee
 
 router.delete('/:userId',validateUser,(req,res,next)=>
 {
-    if(req.isadmin=="true")
-    {
-employeefunction.removeEmployee(req.params.userId)
+employeefunction.removeEmployee(req.params.userId,req.isadmin)
 .then(d=>res.json(d))
 .catch(next);
-employeefunction.removeEmployeeLeave(req.params.userId)
+employeefunction.removeEmployeeLeave(req.params.userId,req.isadmin)
 .then(d=>res.json(d))
 .catch(next);
-    }
-    else
-    {
-        res.json("you are not an admin")
-    }
+   
 })
  
-router.put('/admin',(req,res,next)=>
-{
-    
 
-})
 module.exports=router;

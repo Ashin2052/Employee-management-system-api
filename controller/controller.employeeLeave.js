@@ -4,6 +4,8 @@ const router = Router();
 const employeeLeavefunction = require("../functions/controller.employeeLeaveFunction");
 const validateUser = require("../services/userValidation");
 
+
+//Applyleave
 router.post("/ApplyLeave", validateUser, (req, res, next) => {
   console.log("hjhjhjh", req.UserId, req.name, req.email);
   employeeLeavefunction
@@ -12,57 +14,52 @@ router.post("/ApplyLeave", validateUser, (req, res, next) => {
     .catch(next);
 });
 
+//findEmployeeAllLeave
 router.get("/AppliedEmployeeList",validateUser, (req, res, next) => {
  
-  if(req.isadmin){
+  
   employeeLeavefunction
-    .findEmployeeAllLeave()
+    .findEmployeeAllLeave(req.isadmin)
     .then(d => res.json(d))
     .catch(next);
-  }
-  else
-{
-  res.json("you are not an admin")
-}
+  
 });
+
+//MakeAdmin
 
 router.put("/Makeadmin", validateUser, (req, res, next) => {
   console.log(req.isadmin, "you area a admin");
-
-  if (req.isadmin) {
-    console.log("bheja");
     employeeLeavefunction
-      .MakeAdmin(req.body)
+      .MakeAdmin(req.body,req.isadmin)
       .then(d => res.json(d))
       .catch(next);
-  } else {
-    res.json("you are not admin");
-  }
+  
 });
 
-router.put("/Approve/:Id", validateUser, (req, res, next) => {
-  if (req.isadmin) {
+  //Approve ;leave
+
+router.put("/Approve/", validateUser, (req, res, next) => {
+ 
     employeeLeavefunction
-      .ApproveLeave(req.params.Id, req.body)
+      .ApproveLeave( req.body,req.isadmin)
       .then(d => res.json(d))
       .catch(e => {
         console.log(e, "update approve leave");
       });
-  } else {
-    res.json("you are not admin");
-  }
+  
 });
 
+
+//employeeApply
+
 router.get("/employeeApply/:eid", validateUser, (req, res, next) => {
-  if (req.isadmin) {
-    console.log("req.params eid", req.params.eid);
+  
+    console.log("req.params eid", req.params.eid,req.isadmin);
     employeeLeavefunction
-      .employeeApply(req.params.eid)
+      .employeeApply(req.params.eid,req.isadmin)
       .then(d => res.json(d))
       .catch(next);
-  } else {
-    res.json("you are not admin");
-  }
+  
 });
 
 module.exports = router;

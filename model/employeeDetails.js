@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 
 var employeeSchema = new mongoose.Schema({
-  name: {
-    type: String
+    fullName: {
+    type: String,
+    required:true
+
   },
   isadmin: {
     type: Boolean,
@@ -15,23 +17,34 @@ var employeeSchema = new mongoose.Schema({
   },
 
   password: {
-    type: String
+    type: String,
+    required:true
+
   },
 
   email: {
-    type: String
+    type: String,
+    required:true
   },
   contact: {
-    type: String
+    type: String,
+    required:true
+
   },
   address: {
-    type: String
+    type: String,
+    required:true
+
   },
   gender: {
-    type: String
+    type: String,
+    required:true
+
   },
-  age: {
-    type: Number
+  DoB: {
+    type: Date,
+    required:true
+
   },
 
   role: {

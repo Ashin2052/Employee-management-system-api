@@ -4,14 +4,17 @@ const employeefunction=require('../functions/controller.employeeFunction');
 
 const validateUser=require('../services/userValidation');
 
-router.post('/',(req,res,next)=>
+
+//register employee
+router.post('/',validateUser,(req,res,next)=>
 {
-    employeefunction.signUp(req.body)
+   
+        employeefunction.signUp(req.body,req.isadmin)
     .then(d=>res.json(d))
     .catch(next);
 })
 
-
+//login
 router.post('/login',(req,res,next)=>
 {
     employeefunction.login(req.body)
@@ -19,38 +22,73 @@ router.post('/login',(req,res,next)=>
     .catch(next);
 })
 
-router.get('/getAllEmployee',(req,res,next)=>
+
+  //get approve details
+
+router.get('/getApproveDetails/:userId',validateUser,(req,res,next)=>
 {
-    employeefunction.getAllEmployee()
+    console.log(req.params.UserId,req.UserId,"req nkj")
+   
+    employeefunction.getApproveDetails(req.params.userId,req.UserId)
+    .then(d=>res.json(d))
+    .catch(next);
+   
+})
+
+  //get all employee
+
+router.get('/getAllEmployee',validateUser,(req,res,next)=>
+{
+    
+    employeefunction.getAllEmployee(req.isadmin)
     .then(d=>res.json(d))
     .catch(next);
 })
 
+
+  //reset password
+
+router.put('/resetPassword',validateUser,(req,res,next)=>
+{
+console.log(req.password)
+employeefunction.resetPassword(req.UserId,req.email,req.body)
+.then(d=>res.json(d))
+.catch(next)
+
+})
+
+  //find particular employee
+
 router.get('/:userId',validateUser,(req,res,next)=>
 {
+    
 employeefunction.findParticular(req.params.userId)
 .then(d=>res.json(d))
 .catch(next);
 })
 
+  //update employee details
 
 router.put('/:id',validateUser,(req,res,next)=>
-{
-    employeefunction.update(req.params.id,req.body)
+{     
+    employeefunction.update(req.params.id,req.isadmin,req.UserId,req.body)
     .then(d=>res.json(d))
     .catch(next);
 })
+//
+
+  //remove employee
 
 router.delete('/:userId',validateUser,(req,res,next)=>
 {
-employeefunction.removeEmployee(req.params.userId)
+employeefunction.removeEmployee(req.params.userId,req.isadmin)
 .then(d=>res.json(d))
 .catch(next);
+employeefunction.removeEmployeeLeave(req.params.userId,req.isadmin)
+.then(d=>res.json(d))
+.catch(next);
+   
 })
  
-router.put('/admin',(req,res,next)=>
-{
-    
 
-})
 module.exports=router;

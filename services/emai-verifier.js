@@ -1,9 +1,22 @@
-const Verifier = require("email-verifier");
+// const Joi = require('@hapi/joi');
+ 
+// const schema = Joi.object().keys({
+//     username: Joi.string().alphanum().min(3).max(30).required(),
+//     password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+//     access_token: [Joi.string(), Joi.number()],
+//     birthyear: Joi.number().integer().min(1900).max(2013),
+//     email: Joi.string().email({ minDomainSegments: 2 })
+// }).with('username', 'birthyear').without('password', 'access_token');
+ 
+// // Return result.
+// function SchemaValidator(payload)
+// {
+// const result = Joi.validate({ username: payload.fullName}, schema);
+// // result.error === null -> valid
+// Joi.validate({ username: payload.fullName}, schema, function (err, value) { });
+// }
 
-let verifier = new Verifier("https://emailverification.whoisxmlapi.com/api/v1?apiKey=at_6yki4sbvWdEfP4Don22wi8Wot8WTQ&emailAddress=support@whoisxmlapi.com");
-verifier.verify("r@rdegges.com", (err, data) => {
-    if (err) throw err;
-    console.log(data);
-});
-
-module.exports=verifier;
+// // You can also pass a callback which will be called synchronously with the validation result.
+//   // err === null -> valid
+ 
+// module.exports=SchemaValidator();

@@ -39,25 +39,30 @@ class employeeLeave {
 //findEmployeAll leave list
 
   findEmployeeAllLeave(isadmin) {
-    return new Promise((resolve, reject) => {
-      console.log("nkj");
-      if(isadmin){
+    if( isadmin ) {
+      return employeeLeaveModels.find().populate('eid');
+    }else {
+      console.log('false')
+     return  Promise.reject({statusCode:403})
+    }
+    // return new Promise((resolve, reject) => {
+    //   console.log("nkj");
+    //   if(isadmin){
 
-        employeeLeaveModels
-        .find()
-        .populate("eid")
-        .then(d => {
-          resolve(d);
-          console.log(d);
-        })
-        .then(d => resolve(d))
-        .catch(e => reject(e));
-      }
-      else{
-        resolve("you are not an admin")
-      }
+    //     return employeeLeaveModels
+    //     .find()
+    //     .populate("eid")
+    //     // .then(d => {
+    //     //   resolve(d);
+    //     //   console.log(d);
+        // })
+        // .catch(e => reject(e));
+    //   }
+    //   else{
+    //     resolve("you are not an admin")
+    //   }
       
-    });
+    // });
   }
 
 

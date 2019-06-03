@@ -31,7 +31,7 @@ class employee {
         .then(user => {
           console.log(user, "user signup");
           if (user) {
-            resolve("user already exist");
+            resolve("email already exist");
           } else {
 
             let obj = new employeeContact(payload);

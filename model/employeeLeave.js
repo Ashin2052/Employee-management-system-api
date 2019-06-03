@@ -13,6 +13,10 @@ var employeeSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+
+  Appp:{
+   type:Date
+  },
   LeaveDate: {
     type: Date,
     required: true
@@ -29,7 +33,9 @@ var employeeSchema = new mongoose.Schema({
   Description: {
     type: String
   }
-});
+},{timestamps: true}
+
+);
 
 emp
   .find()

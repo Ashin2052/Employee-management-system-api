@@ -3,10 +3,11 @@ const router=Router();
 const employeefunction=require('../functions/controller.employeeFunction');
 
 const validateUser=require('../services/userValidation');
+const schemavalidator = require('../services/schemavalidator')
 
 
 //register employee
-router.post('/',validateUser,(req,res,next)=>
+router.post('/',validateUser,schemavalidator,(req,res,next)=>
 {
    
         employeefunction.signUp(req.body,req.isadmin)
@@ -48,7 +49,7 @@ router.get('/getAllEmployee',validateUser,(req,res,next)=>
 
   //reset password
 
-router.put('/resetPassword',validateUser,(req,res,next)=>
+router.put('/resetPassword',validateUser,schemavalidator,(req,res,next)=>
 {
 console.log(req.password)
 employeefunction.resetPassword(req.UserId,req.email,req.body)
@@ -69,7 +70,7 @@ employeefunction.findParticular(req.params.userId)
 
   //update employee details
 
-router.put('/:id',validateUser,(req,res,next)=>
+router.put('/:id',validateUser,schemavalidator,(req,res,next)=>
 {     
     employeefunction.update(req.params.id,req.isadmin,req.UserId,req.body)
     .then(d=>res.json(d))

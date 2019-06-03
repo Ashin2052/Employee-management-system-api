@@ -3,7 +3,7 @@ const router = Router();
 
 const employeeLeavefunction = require("../functions/controller.employeeLeaveFunction");
 const validateUser = require("../services/userValidation");
-
+const httpResponse=require("../errorhandling/errorhandler")
 
 //Applyleave
 router.post("/ApplyLeave", validateUser, (req, res, next) => {
@@ -21,7 +21,7 @@ router.get("/AppliedEmployeeList",validateUser, (req, res, next) => {
   employeeLeavefunction
     .findEmployeeAllLeave(req.isadmin)
     .then(d => res.json(d))
-    .catch(next);
+    .catch(e=>httpResponse.errorHandler(res, e));
   
 });
 

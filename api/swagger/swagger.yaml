@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:9001/api/
+    description: Optional server description, e.g. Main (production) server
+  - url: http://localhost:9001/api/
+    description: Optional server description, e.g. Internal staging server for testing
+
+paths:
+  /employees/login:
+    post:
+      summary: Adds a new user
+      requestBody:
+        content:
+          application/json:     # Media type
+            schema:             # Request body contents
+              $ref: '#/components/schemas/User'   # Reference to an object
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    User:    # Schema name
+      type: object
+      properties:
+        email:
+          type: string
+          
+          example: eacdf         # Property example
+        password:
+          type: string
+          example: New order  # Property example

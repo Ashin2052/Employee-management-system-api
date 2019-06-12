@@ -9,7 +9,7 @@ const httpResponse=require("../errorhandling/errorhandler")
 //register employee
 router.post('/',validateUser,schemavalidator,(req,res,next)=>{
 
-   
+   console.log("da",req.body)
   employee_function.signUp(req.body,req.isadmin)
     .then(d=>httpResponse.success(res, d))
     .catch(e=>httpResponse.errorHandler(res, e));

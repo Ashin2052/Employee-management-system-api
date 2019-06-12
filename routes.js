@@ -1,13 +1,13 @@
 const Router=require('express').Router;
-const employeeContact=require('./controller/controller.employeeContact');
-  const employeeLeaveContact=require('./controller/controller.employeeLeave')
+const employeeContact=require('./controller/controller.employee-Contact');
+  const employeeLeaveContact=require('./controller/controller.Leave')
 let router=Router();
 
 
 router.get('/',(req,res)=>{
-    res.json("ashin ahha haha");
+    res.json("Employee contact details");
 })
 
-router.use('/employeeContact',employeeContact);
-router.use('/employeeLeaveContact',employeeLeaveContact)
+router.use('/employees',employeeContact);
+router.use('/leaves',employeeLeaveContact)
 module.exports=router;

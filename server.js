@@ -6,7 +6,6 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 require("dotenv").config({ path: "variables.env" });
-var server = require('http').Server(app);
 const YAML=require('yamljs')
  
     

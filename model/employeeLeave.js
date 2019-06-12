@@ -31,7 +31,8 @@ var employeeSchema = new mongoose.Schema({
     default: false
   },
   Description: {
-    type: String
+    type: String,
+    required:true
   }
 },{timestamps: true}
 

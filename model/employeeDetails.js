@@ -24,7 +24,7 @@ var employeeSchema = new mongoose.Schema({
 
   email: {
     type: String,
-    required:true
+    required:true,unique: true 
   },
   contact: {
     type: String,
@@ -45,13 +45,10 @@ var employeeSchema = new mongoose.Schema({
     type: Date,
     required:true
 
-  },
-
-  role: {
-    type: Number,
-    default: 0
   }
-});
+},
+{timestamps: true}
+);
 
 const employeeContact = mongoose.model("employeeContact", employeeSchema);
 module.exports = employeeContact;

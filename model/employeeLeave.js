@@ -13,6 +13,10 @@ var employeeSchema = new mongoose.Schema({
     type:String,
     required:true
   },
+
+  Appp:{
+   type:Date
+  },
   LeaveDate: {
     type: Date,
     required: true
@@ -27,17 +31,13 @@ var employeeSchema = new mongoose.Schema({
     default: false
   },
   Description: {
-    type: String
+    type: String,
+    required:true
   }
-});
+},{timestamps: true}
 
-emp
-  .find()
-  .populate("eid")
-  .exec(function(err, xx) {
-    if (err) console.log(err);
-    //this will log all of the users with each of their posts
-    else console.log("populated");
-  });
+);
+
+
 const employeeLeave = mongoose.model("employeeLeave", employeeSchema);
 module.exports = employeeLeave;

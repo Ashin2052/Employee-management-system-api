@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:9001/api/
+
+
+paths:
+  /employees/login:
+    post:
+      summary: Login 
+      description: Login by email and password
+      tags:
+        - Employee_Controller
+      requestBody:
+        description: user login and password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+  /employees:
+    post:
+      summary: Register new employees
+      description: Registering new employees,Can only be done by admin
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      requestBody: 
+        content:
+          application/json:   
+            schema:
+              $ref: '#/components/schemas/reg'
+      responses:
+        '201':
+          description: registered
+  /employees/:
+    get:
+      summary: Get all employees
+      description: Geth the list of all employees
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+  /employees/{id}:
+    get:
+      summary: Get particular employees
+      description: get particular employees by id
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+    put:
+      summary: Update particular employees
+      description: Update particular employeees by finding the employee through its id.
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: USer_Id
+          required: true
+          schema:
+            type: string
+      requestBody: 
+        content:
+          application/json:   
+            schema:
+              $ref: '#/components/schemas/reg'
+      responses:
+        '201':
+          description: registered              
+          
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    reg:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        fullName:
+          type: string
+        mobile:
+          type: string
+        gender:
+          type: string 
+        DoB:
+          type: string 
+        contact:
+          type: string 
+        address:
+          type: string 
+        isadmin:
+          type: string      
+        isemployee:
+          type: string        
+      required:
+        - email
+        - password
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+tags:
+  - name: Employee_Controller
+    description: Everything about employee operation     
+      
+
+#   /employees/:
+#     get:
+#       summary: get all user
+#       requestBody:
+#         content:
+#           application/json:     # Media type
+#             schema:             # Request body contents
+#               $ref: '#/components/schemas/User'   # Reference to an object
+#       responses:
+#         '200':
+#           description: OK
+# components:
+#   schemas:
+#   securitySchemes:
+#     bearerAuth:            # arbitrary name for the security scheme
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT 
+#   security:
+#   - bearerAuth: [] 
+
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

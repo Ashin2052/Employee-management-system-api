@@ -27,8 +27,8 @@ var employeeSchema = new mongoose.Schema({
     required: true
   },
   Approved: {
-    type: Boolean,
-    default: false
+    type: String,
+    default: "pending"
   },
   Description: {
     type: String,

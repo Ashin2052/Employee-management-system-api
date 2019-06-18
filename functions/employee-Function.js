@@ -75,7 +75,7 @@ class employee {
 
               resolve(UseTok);
             } else {
-              reject({ statusCode: 500, message: "authentication fail" });
+              resolve({ statusCode: 500, message: "authentication fail" });
             }
           }
         });
@@ -113,17 +113,17 @@ class employee {
   }
 
   //find particular employee
-  getParticularEmployee(userId, isadmin) {
+  getParticularEmployee(userId) {
     return new Promise((resolve, reject) => {
-      if (isadmin) {
-        console.log("employee get", userId);
-        employee_Contact
-          .findById(userId)
-          .then(d => resolve(d))
-          .catch(e => reject(e));
-      } else {
-        reject({ statusCode: 403, message: "you are not admin" });
-      }
+      // if (isadmin) {
+      console.log("employee get", userId);
+      employee_Contact
+        .findById(userId)
+        .then(d => resolve(d))
+        .catch(e => reject(e));
+      // } else {
+      //   reject({ statusCode: 403, message: "you are not admin" });
+      // }
     });
   }
 
@@ -171,7 +171,7 @@ class employee {
   removeEmployeeLeave(eid, isadmin) {
     return new Promise((resolve, reject) => {
       if (isadmin) {
-        employeeLeaveDetails
+        employee_Leave_Details
           .deleteMany({ eid: eid })
           .then(d => resolve(d))
           .catch(e => reject(e));

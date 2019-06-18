@@ -1,7 +1,7 @@
 const employeeLeaveModels = require("../model/employeeLeave");
 const employeeContact = require("../model/employeeDetails");
 const mailer = require("../services/mailer");
-const httpResponse=require("../errorhandling/errorhandler")
+const httpResponse = require("../errorhandling/errorhandler");
 
 class employeeLeave {
   constructor() {}
@@ -26,7 +26,10 @@ class employeeLeave {
           .catch(e => reject(e));
         console.log("break");
       } else {
-        reject({ statusCode: 403,message:"you are not admin" });
+        reject({
+          statusCode: 403,
+          message: "return date less then leave date"
+        });
       }
     });
   }
@@ -38,8 +41,7 @@ class employeeLeave {
       return employeeLeaveModels.find().populate("eid");
     } else {
       console.log("false");
-      return Promise.reject({ statusCode: 403,message:"you are not admin" });
-
+      return Promise.reject({ statusCode: 403, message: "you are not admin" });
     }
   }
 
@@ -47,7 +49,7 @@ class employeeLeave {
   approveLeave(payload, isadmin) {
     return new Promise((resolve, reject) => {
       if (isadmin) {
-        console.log("payloadn id",  payload.Id);
+        console.log("payloadn id", payload.Id);
         //  mailer.sendMail("mahat.ashin@hotmail.com", "mahat.ashin@gmail.com", "approved", `<p>thank you</p>`);
 
         employeeLeaveModels
@@ -91,9 +93,8 @@ class employeeLeave {
             resolve(d);
           })
           .catch(e => reject(e));
-      } else 
-      {
-        reject({ statusCode: 403,message:"you are not admin" });
+      } else {
+        reject({ statusCode: 403, message: "you are not admin" });
       }
     });
   }
@@ -107,7 +108,7 @@ class employeeLeave {
           .then(d => resolve(d))
           .catch(e => reject(e));
       } else {
-        reject({ statusCode: 403,message:"you are not admin" });
+        reject({ statusCode: 403, message: "you are not admin" });
       }
     });
   }
@@ -129,9 +130,9 @@ class employeeLeave {
             }
           )
           .then(d => resolve(d))
-          .catch(e=>reject(e));
+          .catch(e => reject(e));
       } else {
-        reject({ statusCode: 403,message:"you are not admin" });
+        reject({ statusCode: 403, message: "you are not admin" });
       }
     });
   }

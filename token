@@ -1,0 +1,49 @@
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5kZXIiOiJtYWxlIiwiX2lkIjoiNWQwMDhlMzBjZTkyY2IwZWVjMGNhYmM2IiwiZnVsbE5hbWUiOiJzZGEiLCJlbWFpbCI6InphYmFsaS5iYXpueGdAZmlkcHYuY29tIiwicGFzc3dvcmQiOiIxOGNmMThjMWZkMDM2ZDZlNzZhMjQ2NDc5YjBiMjNlYjMwOTYwM2U3IiwiYWRkcmVzcyI6Indld2Rzc2Zkc2Z3ZiIsImlzYWRtaW4iOnRydWUsImlhdCI6MTU2MDQ5MDA1OSwiZXhwIjoxNTYwNTc2NDU5fQ.cuX-OrYunkRcHckdk2zh-a2dKnoXjd658DVdl5yW9_M
+
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5kZXIiOiJtYWxlIiwiX2lkIjoiNWNmMGY0NTQ1Zjg4NGIzNTg0MzRjMzg4IiwiZnVsbE5hbWUiOiJzZGEiLCJlbWFpbCI6Im1haEFiZW1hc3Rzc3Nhc3pkZHMuc2JkYWhlZWVqYUBmaXAuY29tIiwicGFzc3dvcmQiOiIyOTA1NGNkNzg5ZmZiZTI0MGU0YTY3Mjg4OWIxMTYyZTVmMDZmZjU3IiwiYWRkcmVzcyI6Indld2Rzc2Zkc2Z3ZiIsImlzYWRtaW4iOmZhbHNlLCJpYXQiOjE1NjA0OTAxMjIsImV4cCI6MTU2MDU3NjUyMn0.0GlgHIiQeb6TVaSOnqRWTogvjx7e-nflx0Q6r2bDydg
+
+
+
+
+
+/**@swagger          
+*  definitions:
+*    Leave:
+*      type: object
+*      properties:
+*        LeaveDate:
+*          type: string
+*        ReturnDate:
+*          type: string
+*        Description:
+*           type: string 
+*      required:
+*        - LeaveDate
+*        - ReturnDate
+*        - Description   
+*/
+
+/**@swagger
+* /leaves:
+*   post:
+*     summary: aplly leave
+*     description: Aplly leave by the employee
+*   tags:
+*      - Leaves_Controller
+*   prodeuce:
+*      - application/json
+*   parameters:
+*     - in: header
+*       name: authorization
+*     - in: body
+*       name: body
+*       schema:
+*         $ref: '#/definitions/Leave'
+*   responses:
+*        200:
+*           description:   
+*/
+
+

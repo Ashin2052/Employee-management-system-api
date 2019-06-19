@@ -90,7 +90,43 @@ paths:
               $ref: '#/components/schemas/reg'
       responses:
         '201':
-          description: registered              
+          description: registered
+    delete:
+      summary: Delete employee info and its leave details
+      description: Both the emoloyee and its all the leave details are removed .
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: USer_Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: deleted          
+      
+  /employees/reset/Password/:
+    put:
+      summary: Reset password
+      description: Reseting password .Requires old password to update a new one.
+      tags:
+        - Employee_Controller
+      security:
+        - bearerAuth: []
+      requestBody: 
+        content:
+          application/json:   
+            schema:
+              $ref: '#/components/schemas/reset-password'
+      responses:
+        '201':
+          description: updated
+    
+
           
 components:
   schemas:
@@ -130,6 +166,16 @@ components:
       required:
         - email
         - password
+    reset-password:
+      type: object
+      properties:
+        currentpassword:
+          type: string
+        newPassword:
+          type: string
+      required:
+        - email
+        - password  
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
       type: http
@@ -141,26 +187,6 @@ tags:
     description: Everything about employee operation     
       
 
-#   /employees/:
-#     get:
-#       summary: get all user
-#       requestBody:
-#         content:
-#           application/json:     # Media type
-#             schema:             # Request body contents
-#               $ref: '#/components/schemas/User'   # Reference to an object
-#       responses:
-#         '200':
-#           description: OK
-# components:
-#   schemas:
-#   securitySchemes:
-#     bearerAuth:            # arbitrary name for the security scheme
-#       type: http
-#       scheme: bearer
-#       bearerFormat: JWT 
-#   security:
-#   - bearerAuth: [] 
 
 # components:
 #   securitySchemes:

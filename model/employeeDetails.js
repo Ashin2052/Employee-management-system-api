@@ -10,11 +10,6 @@ var employeeSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  isemployee: {
-    type: Boolean,
-
-    default: true
-  },
 
   password: {
     type: String,

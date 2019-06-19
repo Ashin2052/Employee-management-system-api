@@ -1,21 +1,22 @@
-
-const HttpStatus = require('http-status-codes');
+const HttpStatus = require("http-status-codes");
 
 const commonUtils = {
-	errorHandler(response, error) {
-		response.status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR).send({ message: error.message || error });
-	},
-	unAuthorized(response, error) {
-		response.status(error.statusCode || HttpStatus.UNAUTHORIZED).send({ message: error.message || error });
-	},
-	success(response, data) {
-		response.status(HttpStatus.OK).send(data);
-	},
+  errorHandler(response, error) {
+    response
+      .status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
+      .send({ message: response.message || error });
+  },
+  unAuthorized(response, error) {
+    response
+      .status(error.statusCode || HttpStatus.UNAUTHORIZED)
+      .send({ message: error.message || error });
+  },
+  success(response, data) {
+    response.status(HttpStatus.OK).send(data);
+  }
 };
 
-module.exports=commonUtils;
-
-
+module.exports = commonUtils;
 
 // router.get('/', (request, response) => {
 //     promoCodeService.fetchPromoCode().then(user => {
@@ -37,4 +38,3 @@ module.exports=commonUtils;
 //       });
 
 //     });
-  

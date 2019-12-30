@@ -1,48 +1,51 @@
 const mongoose = require("mongoose");
 
-var employeeSchema = new mongoose.Schema({
+var employeeSchema = new mongoose.Schema(
+  {
     fullName: {
-    type: String,
-    required:true
+      type: String,
+      required: true
+    },
+    isadmin: {
+      type: Boolean,
+      default: false
+    },
 
+    password: {
+      type: String,
+      required: true
+    },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    contact: {
+      type: String,
+      // required: true
+    },
+    address: {
+      type: String,
+
+    },
+    gender: {
+      type: String,
+
+    },
+    DoB: {
+      type: Date
+    },
+    joinedDate: {
+      type: Date
+    },
+    ratings: {
+      type: Number,
+      // required: true,
+      default: 1
+    }
   },
-  isadmin: {
-    type: Boolean,
-    default: false
-  },
-
-  password: {
-    type: String,
-    required:true
-
-  },
-
-  email: {
-    type: String,
-    required:true,unique: true 
-  },
-  contact: {
-    type: String,
-    required:true
-
-  },
-  address: {
-    type: String,
-    required:true
-
-  },
-  gender: {
-    type: String,
-    required:true
-
-  },
-  DoB: {
-    type: Date,
-    required:true
-
-  }
-},
-{timestamps: true}
+  { timestamps: true }
 );
 
 const employeeContact = mongoose.model("employeeContact", employeeSchema);

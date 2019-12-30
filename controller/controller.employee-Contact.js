@@ -6,10 +6,14 @@ const schemavalidator = require("../Utilities/schemavalidator");
 const httpResponse = require("../errorhandling/errorhandler");
 
 //register employee
-router.post("/", validateUser, schemavalidator, (req, res, next) => {
+router.post("/", validateUser, (req, res, next) => {
+  console.log("******", req.isadmin);
   employee_function
     .signUp(req.body, req.isadmin)
-    .then(d => httpResponse.success(res, d))
+    .then(d => {
+      console.log("&&&&&&&", d);
+      httpResponse.success(res, d);
+    })
     .catch(e => httpResponse.errorHandler(res, e));
 });
 
@@ -41,7 +45,7 @@ router.get("/approved/:id", validateUser, (req, res, next) => {
 
 router.get("/", validateUser, (req, res, next) => {
   employee_function
-    .getAllEmployee(req.isadmin)
+    .getAllEmployee(req.isadmin == false)
     .then(d => httpResponse.success(res, d))
     .catch(e => httpResponse.errorHandler(res, e));
 });

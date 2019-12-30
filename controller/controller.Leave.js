@@ -37,12 +37,19 @@ router.get("/:eid", validateUser, (req, res, next) => {
 });
 
 //MakeAdmin
-router.put("/make-admin", validateUser, (req, res, next) => {
-  console.log(req.isadmin, "isadmin from token");
+router.put("/make-admin/", validateUser, (req, res, next) => {
+  console.log(req.body, req.isadmin, "isadmin from token");
   employee_leave_function
     .makeAdmin(req.body, req.isadmin)
-    .then(d => httpResponse.success(res, d))
-    .catch(e => httpResponse.errorHandler(res, e));
+    .then(d => {
+      httpResponse.success(res, d);
+
+      console.log(d, "rrdpomdr");
+    })
+    .catch(e => {
+      httpResponse.errorHandler(res, e);
+      console.log(e, "error");
+    });
 });
 
 //Approve ;leave

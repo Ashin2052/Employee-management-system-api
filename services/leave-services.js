@@ -4,7 +4,7 @@ const mailer = require("../Utilities/mailer");
 const httpResponse = require("../errorhandling/errorhandler");
 
 class employeeLeave {
-  constructor() {}
+  constructor() { }
 
   //Applyleave
 
@@ -15,8 +15,9 @@ class employeeLeave {
           $and: [{ eid: userId }, { LeaveDate: payload.LeaveDate }]
         })
         .then(d => {
+          console.log(d, "sujan hancy");
           console.log(d.length);
-          if (d.length < 0) {
+          if (d.length < 1) {
             var return_date = new Date(payload.ReturnDate);
             var leave_Date = new Date(payload.LeaveDate);
             if (leave_Date < return_date) {
@@ -39,7 +40,7 @@ class employeeLeave {
               });
             }
           } else {
-            reject({
+            resolve({
               statusCode: 403,
               message: "your retur or leave date has alredy been registerd"
             });
@@ -143,7 +144,9 @@ class employeeLeave {
               new: true
             }
           )
-          .then(d => resolve(d))
+          .then(d => {
+            resolve(d);
+          })
           .catch(e => reject(e));
       } else {
         reject({ statusCode: 403, message: "you are not admin" });

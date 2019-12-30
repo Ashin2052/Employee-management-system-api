@@ -9,8 +9,8 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 require("dotenv").config({ path: "variables.env" });
 // const YAML=require('yamljs')
- 
-    
+
+
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = YAML.load('./api/swagger/swagger.yaml');
 
@@ -23,7 +23,7 @@ require("dotenv").config({ path: "variables.env" });
 // routeManager.get('/', swaggerUi.setup(swaggerDocument,options));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors()); 
+app.use(cors());
 var swaggerDefinition = {
   info: {
     title: "Speakpulse API",
@@ -34,10 +34,10 @@ var swaggerDefinition = {
   basePath: "/api"
 };
 
-var options = { swaggerDefinition: swaggerDefinition, apis: [ "./controller/*.js"]};
+var options = { swaggerDefinition: swaggerDefinition, apis: ["./controller/*.js"] };
 var swaggerSpec = swaggerJSDoc(options);
 
-app.get("/swagger.json", function(req, res) {
+app.get("/swagger.json", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
 });
@@ -50,6 +50,7 @@ mongoose.connection.on("connected", () =>
   console.log("mongodb connected successfully.")
 );
 mongoose.connection.on("error", error => console.log("connection failed."));
+mongoose.set('useFindAndModify', false);
 
 app.use(
   bodyparsers.urlencoded({

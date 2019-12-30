@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const employee_Contact = require("../model/employeeDetails");
 const employee_Leave_Details = require("../model/employeeLeave");
 const Cryptr = require("cryptr");
@@ -8,7 +7,7 @@ const sec = require("../config");
 const Cerifier = require("email-verifier");
 
 class employee {
-  constructor() {}
+  constructor() { }
 
   signUp(payload, isadmin) {
     return new Promise((resolve, reject) => {
@@ -19,20 +18,31 @@ class employee {
           })
           .then(user => {
             if (user) {
-              reject("email already exist");
+              resolve("email already exist");
             } else {
-              let obj = new employee_Contact(payload);
-              const encryptedString = cryptr.encrypt(payload.password);
-              obj.password = encryptedString;
-              (obj.DoB = new Date(payload.DoB)),
-                obj
-                  .save()
-                  .then(d => {
-                    let result = this.mapObject(d);
-                    resolve(result);
-                  })
-                  .catch(e => reject(e));
-              console.log("signup successful");
+              let obj = new employee_Contact({
+                fullName: payload.fullName,
+                password: payload.password,
+                email: payload.email,
+                address: payload.address,
+                gender: payload.gender,
+                contact: payload.contact,
+                qualification: payload.qualification
+
+              });
+              // const encryptedString = cryptr.encrypt(payload.password);
+              // obj.password = encryptedString;
+              obj.DoB = new Date(payload.DoB);
+              // obj.joinedDate = new Date(payload.joinedDate);
+              obj
+                .save()
+                .then(d => {
+                  let result = this.mapObject(d);
+                  console.log("signup successful");
+                  return resolve(result);
+                })
+                .catch(e => reject(e));
+              resolve(obj);
             }
           });
       } else {
@@ -41,9 +51,34 @@ class employee {
     });
   }
 
+  // async signUp(payload, isadmin) {
+  //   console.log("payload", payload);
+  //   return new Promise(async (resolve, reject) => {
+  //     if (isadmin) {
+  //       const employee = await employee_Contact.findOne({
+  //         email: payload.email
+  //       });
+  //       console.log("emloyee ", employee);
+  //       if (employee) {
+  //         return resolve("user already exist.");
+  //       }
+  //       let newEmployee = new employee_Contact(payload);
+  //       const encryptedString = cryptr.encrypt(payload.password);
+  //       newEmployee.password = encryptedString;
+  //       newEmployee.DoB = new Date(payload.DoB);
+  //       const emp = await newEmployee.save();
+  //       resolve({ message: "testing", data: emp });
+  //     }
+  //   });
+  // }
+
   //login
   login(payload) {
     return new Promise((resolve, reject) => {
+      // const xxx = cryptr.decrypt(
+      //   "18620001f1dfe2442cb6a58112d915e71a2b23b695024748"
+      // );
+      // console.log(xxx, "decrypt");
       employee_Contact
         .findOne({
           email: payload.email
@@ -53,8 +88,8 @@ class employee {
           if (!user) {
             resolve("user does not exist");
           } else {
-            const decryptPassword = cryptr.decrypt(user.password);
-            if (payload.password == decryptPassword) {
+            // const decryptPassword = cryptr.decrypt(user.password);
+            if (payload.password == user.password) {
               const jwtToken = jwt.sign(
                 {
                   gender: user.gender,
@@ -79,7 +114,7 @@ class employee {
 
               resolve(UseTok);
             } else {
-              reject({ statusCode: 403, message: "password incorrect" });
+              resolve({ statusCode: 403, message: "password incorrect" });
             }
           }
         });
@@ -105,7 +140,7 @@ class employee {
   //get all employee
   getAllEmployee(isadmin) {
     return new Promise((resolve, reject) => {
-      if (isadmin) {
+      if (true) {
         employee_Contact
           .find()
           .then(d => {
@@ -127,10 +162,12 @@ class employee {
           _id: x._id,
           fullName: x.fullName,
           email: x.email,
-          mobile: x.mobile,
+          contact: x.contact,
           address: x.address,
           isadmin: x.isadmin,
-          DoB: x.DoB
+          DoB: x.DoB,
+          joinedDate: x.createdAt,
+          ratings: x.ratings
         };
       });
     } else {
@@ -139,10 +176,11 @@ class employee {
         _id: employee._id,
         fullName: employee.fullName,
         email: employee.email,
-        mobile: employee.mobile,
+        contact: employee.contact,
         address: employee.address,
         isadmin: employee.isadmin,
-        DoB: employee.DoB
+        DoB: employee.DoB,
+        joinedDate: employee.createdAt
       };
     }
   }
@@ -180,7 +218,10 @@ class employee {
               new: true
             }
           )
-          .then(d => resolve(d))
+          .then(d => {
+            console.log("update", d);
+            resolve(d);
+          })
           .catch(e => reject(e));
       } else {
         reject({ statusCode: 500, message: "authentication fail" });
@@ -191,6 +232,7 @@ class employee {
   //remove employee
   removeEmployee(userId, isadmin) {
     return new Promise((resolve, reject) => {
+      console.log(userId, isadmin, 'delete user')
       if (isadmin) {
         employee_Contact
           .findByIdAndDelete(userId)

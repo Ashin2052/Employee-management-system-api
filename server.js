@@ -61,7 +61,12 @@ app.use(
 
 app.use(cors());
 app.use(bodyparsers.json({}));
-app.use("/api", routeManager);
+router.get('/', (req, res) => {
+  res.json({
+    message: "API wrorking"
+  })
+})
+// app.use("/api", routeManager);
 
 module.exports = app.listen(process.env.PORT, () =>
   console.log("server started")

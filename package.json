@@ -19,7 +19,7 @@
     "dotenv": "^7.0.0",
     "email-validator": "^2.0.4",
     "email-verifier": "^0.4.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "lowdb": "^1.0.0",
     "mocha": "^6.1.4",
